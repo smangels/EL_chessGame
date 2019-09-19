@@ -42,7 +42,7 @@ class ChessBoard(object):
         if not re.match(r'^[a-h][1-8]$', coord.lower()):
             raise NameError('invalid coordinate %s' % coord)
         col = ord(coord[0].lower()) - 97  # convert ascii into int (97 ascii for 'a')
-        row = int(coord[1], 10) - 1  # convert second char into int base10
+        row = 8 - int(coord[1], 10)  # convert second char into int base10
         return [row, col]
 
     def move(self, start, to):

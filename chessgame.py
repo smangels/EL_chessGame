@@ -5,7 +5,7 @@ from chessboard import ChessBoard
 commands = {"m": "move", "i": "init", "q": "quit", "s": "start"}
 
 
-def print_cmds():
+def print_commands():
     for command in commands.keys():
         print('%s => %s' % (command, commands[command]))
 
@@ -24,7 +24,7 @@ def main():
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
         print(b)
-        print_cmds()
+        print_commands()
         _c = input('next command: ')
         if cmd_is_valid(_c):
             print("received: %s" % commands[_c])
