@@ -39,17 +39,22 @@ class ChessBoard(object):
     @staticmethod
     def _coord_to_index(coord: str):
         """convert string of coordinates into list of indexes"""
-        if not re.match(r"^[a-h][1-8]$", coord.lower()):
+        if not re.match(r'^[a-h][1-8]$', coord.lower()):
             raise NameError('invalid coordinate %s' % coord)
-        col = ord(coord[0]) - 97  # convert ascii into int (97 ascii for 'a')
-        row = int(coord[1], 10)  # convert second char into int base10
+        col = ord(coord[0].lower()) - 97  # convert ascii into int (97 ascii for 'a')
+        row = int(coord[1], 10) - 1  # convert second char into int base10
         return [row, col]
 
     def move(self, start, to):
         from_row, from_col = ChessBoard._coord_to_index(start)
         to_row, to_col = ChessBoard._coord_to_index(to)
         print('%s => %d:%d' % (start, from_row, from_col))
-        input('understood?')
+        print('%s => %d:%d' % (to, to_row, to_col))
+        if self.board[from_row][from_col]:
+            print('found: %s' % self.board[from_row][from_col])
+        else:
+            print('empty')
+        input('press ENTER')
         self.moves += 1
 
     def init(self):
