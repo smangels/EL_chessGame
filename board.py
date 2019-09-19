@@ -1,5 +1,5 @@
-
 from piece import *
+import re
 
 
 class Board(object):
@@ -36,11 +36,21 @@ class Board(object):
     def _init_from_file(self):
         pass
 
+    @staticmethod
+    def _coord_to_index(coord: str):
+        """convert string of coordinates into list of indexes"""
+        if not re.match(r"^[a-h][1-8]$", coord.lower()):
+            raise NameError('invalid coordinate %s' % coord)
+        col = ord(coord[0]) - 97  # convert ascii into int (97 ascii for 'a')
+        row = int(coord[1], 10)  # convert second char into int base10
+        return [row, col]
+
     def move(self, start, to):
-        print('move from %s to %s' % (start, to))
+        from_row, from_col = Board._coord_to_index(start)
+        to_row, to_col = Board._coord_to_index(to)
+        print('%s => %d:%d' % (start, from_row, from_col))
+        input('understood?')
         self.moves += 1
 
     def init(self):
         self._init_board()
-
-

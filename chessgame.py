@@ -33,7 +33,11 @@ def main():
             elif _c == 'm':
                 _from = input('start: ')
                 _to = input('from: ')
-                b.move(_from, _to)
+                try:
+                    b.move(_from, _to)
+                except NameError:
+                    print('Error: invalid coordinates, press ENTER')
+                    input()
         else:
             print('received invalid command')
             break
