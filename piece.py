@@ -108,7 +108,7 @@ class Bishop(Piece):
         self.name = 'b'
 
         self.moves = {
-            "directions": [[-1, 1], [1, 1], [1, -1], [-1 ,-1]],
+            "directions": [[-1, 1], [1, 1], [1, -1], [-1,-1]],
             "steps": None,
             "jump": False
         }
