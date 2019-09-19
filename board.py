@@ -19,15 +19,15 @@ class Board(object):
     def __str__(self):
         _str = "this is a board\n"
         _row = len(self.board)
+        _str += "   A  B  C  D  E  F  G  H \n"
         for row in self.board:
-            _str += "   A  B  C  D  E  F  G  H \n"
             _str += "%d" % _row
             _row -= 1
             for tile in row:
                 if tile:
-                    _str += "%2s " % tile
+                    _str += " %-2s" % tile
                 else:
-                    _str += " x "
+                    _str += "  x"
 
             _str += '\n'
         return _str

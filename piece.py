@@ -7,7 +7,10 @@ class Color(Enum):
     WHITE = 2
 
     def __str__(self):
-        return self.name
+        if self.name == self.BLACK:
+            return 'b'
+        else:
+            return 'w'
 
 
 class Piece(object):
