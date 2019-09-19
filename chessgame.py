@@ -1,6 +1,6 @@
 import os
 
-from board import Board
+from chessboard import ChessBoard
 
 commands = {"m": "move", "i": "init", "q": "quit", "s": "start"}
 
@@ -19,7 +19,7 @@ def cmd_is_valid(key):
 
 def main():
 
-    b = Board()
+    b = ChessBoard()
 
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')

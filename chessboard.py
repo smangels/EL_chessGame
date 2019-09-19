@@ -2,7 +2,7 @@ from piece import *
 import re
 
 
-class Board(object):
+class ChessBoard(object):
 
     def __init__(self):
         self.board = None
@@ -46,8 +46,8 @@ class Board(object):
         return [row, col]
 
     def move(self, start, to):
-        from_row, from_col = Board._coord_to_index(start)
-        to_row, to_col = Board._coord_to_index(to)
+        from_row, from_col = ChessBoard._coord_to_index(start)
+        to_row, to_col = ChessBoard._coord_to_index(to)
         print('%s => %d:%d' % (start, from_row, from_col))
         input('understood?')
         self.moves += 1
