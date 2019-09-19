@@ -23,8 +23,10 @@ class Piece(object):
 
     def __init__(self, color):
         self.name = None
-        print('set color %s' % color)
-        self.color = Color.WHITE if color == 'w' else Color.BLACK
+        if color in ['w', 'b']:
+            self.color = Color.WHITE if color == 'w' else Color.BLACK
+        else:
+            raise NameError('invalid color')
 
     def __str__(self):
         if self.color == 1:
