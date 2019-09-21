@@ -8,7 +8,7 @@ if sys.version_info[0] < 3:
 from chessboard import ChessBoard
 from chessboard import CBNothingToMoveE, CBSameColorE
 
-commands = {"m": "move", "i": "init", "q": "quit", "s": "start"}
+commands = {"m": "move", "q": "quit"}
 
 
 # TODO: fix issue with invalid color printed
@@ -34,7 +34,6 @@ def main():
         print_commands()
         _c = input('next command: ')
         if cmd_is_valid(_c):
-            print("received: %s" % commands[_c])
             if _c == 'q':
                 break
             elif _c == 'm':
@@ -48,8 +47,7 @@ def main():
                     print('Error: invalid coordinates, %s, press ENTER' % e)
                     input()
         else:
-            print('received invalid command')
-            break
+            input('received invalid command, press ENTER')
 
 
 if __name__ == '__main__':
