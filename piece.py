@@ -1,5 +1,5 @@
 from enum import Enum
-import json
+from typing import List
 
 
 class Color(Enum):
@@ -7,7 +7,7 @@ class Color(Enum):
     WHITE = 2
 
     def __str__(self):
-        if self.name == self.BLACK:
+        if self.value == 1:
             return 'b'
         else:
             return 'w'
@@ -33,6 +33,10 @@ class Piece(object):
         else:
             raise NameError('invalid color')
 
+    def validate_vector(self, vector: List[int]):
+        """validate vector with allowed moves of a certain piece"""
+        raise NotImplementedError('base class')
+
     def __str__(self):
         if self.color == 1:
             _color = 'w'
@@ -57,6 +61,9 @@ class Knight(Piece):
             "jump": True
         }
 
+    def validate_vector(self, vector: List[int]):
+        return True
+
 
 class King(Piece):
     """Implement specialization for a king"""
@@ -71,6 +78,9 @@ class King(Piece):
             "steps": None,
             "jump": False
         }
+
+    def validate_vector(self, vector: List[int]):
+        pass
 
 
 class Queen(Piece):
@@ -87,6 +97,9 @@ class Queen(Piece):
             "jump": False
         }
 
+    def validate_vector(self, vector: List[int]):
+        return True
+
 
 class Rock(Piece):
     """Implement specialization for a rock"""
@@ -100,6 +113,9 @@ class Rock(Piece):
             "jump": False
         }
 
+    def validate_vector(self, vector: List[int]):
+        pass
+
 
 class Bishop(Piece):
     """Implement specialization for a bishop"""
@@ -112,6 +128,9 @@ class Bishop(Piece):
             "steps": None,
             "jump": False
         }
+
+    def validate_vector(self, vector: List[int]):
+        pass
 
 
 class Pawn(Piece):
@@ -129,7 +148,5 @@ class Pawn(Piece):
             "jump": False
         }
 
-
-
-
-
+    def validate_vector(self, vector: List[int]):
+        pass

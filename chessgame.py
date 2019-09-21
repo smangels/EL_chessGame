@@ -1,9 +1,17 @@
 import os
+import sys
+
+# Ensure that we're running Python version 3
+if sys.version_info[0] < 3:
+    raise Exception("Must be using Python 3")
 
 from chessboard import ChessBoard
+from chessboard import CBNothingToMoveE
 
 commands = {"m": "move", "i": "init", "q": "quit", "s": "start"}
 
+
+# TODO: fix issue with invalid color printed
 
 def print_commands():
     for command in commands.keys():
@@ -18,7 +26,6 @@ def cmd_is_valid(key):
 
 
 def main():
-
     b = ChessBoard()
 
     while True:
@@ -31,12 +38,14 @@ def main():
             if _c == 'q':
                 break
             elif _c == 'm':
-                _from = input('start: ')
-                _to = input('from: ')
+                _from = input('move: ').strip()
+                _to = input('to: ').strip()
                 try:
                     b.move(_from, _to)
-                except NameError:
-                    print('Error: invalid coordinates, press ENTER')
+                except CBNothingToMoveE as e:
+                    input('%s, press ENTER' % e.msg)
+                except NameError as e:
+                    print('Error: invalid coordinates, %s, press ENTER' % e)
                     input()
         else:
             print('received invalid command')

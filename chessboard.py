@@ -1,5 +1,12 @@
 from piece import *
 import re
+from typing import List, Set
+
+
+class CBNothingToMoveE(BaseException):
+
+    def __init__(self, msg):
+        self.msg = msg
 
 
 class ChessBoard(object):
@@ -29,7 +36,7 @@ class ChessBoard(object):
                 if tile:
                     _str += " %03s" % tile
                 else:
-                    _str += " %03s" % 'x'
+                    _str += " %03s" % '.'
             _str += '\n'
         return _str
 
@@ -38,24 +45,58 @@ class ChessBoard(object):
 
     @staticmethod
     def _coord_to_index(coord: str):
-        """convert string of coordinates into list of indexes"""
+        """convert string of coordinates into row and column"""
         if not re.match(r'^[a-h][1-8]$', coord.lower()):
             raise NameError('invalid coordinate %s' % coord)
         col = ord(coord[0].lower()) - 97  # convert ascii into int (97 ascii for 'a')
         row = 8 - int(coord[1], 10)  # convert second char into int base10
         return [row, col]
 
+    @staticmethod
+    def _get_vector(orig: List[int], dest: List[int]) -> Set:
+        vect_x = dest[0] - orig[0]
+        vect_y = dest[1] - orig[1]
+        return {vect_x, vect_y}
+
     def move(self, start, to):
+        """Move a piece from START to TO
+            parameters:
+                start: str
+                    coordinates on a chess board
+                to: str
+                    coordinates on a chess board
+        """
         from_row, from_col = ChessBoard._coord_to_index(start)
         to_row, to_col = ChessBoard._coord_to_index(to)
-        print('%s => %d:%d' % (start, from_row, from_col))
-        print('%s => %d:%d' % (to, to_row, to_col))
-        if self.board[from_row][from_col]:
-            print('found: %s' % self.board[from_row][from_col])
-        else:
-            print('empty')
-        input('press ENTER')
-        self.moves += 1
+        vector = ChessBoard._get_vector([from_row, from_col], [to_row, to_col])
+
+        orig = self.board[from_row][from_col]
+        # print(repr(orig))
+        dest = self.board[to_row][to_col]
+        # print(repr(orig))
+        _return = False
+
+        if not orig:
+            _return = False
+            raise CBNothingToMoveE('nothing to move in %s' % start)
+        elif not dest:
+            # move the piece directly to the new position
+            self.moves += 1
+            self.board[to_row][to_col] = orig
+            self.board[from_row][from_col] = None
+            _return = True
+        else:  # remove something
+            input('====>>>> ENTER')
+            # check color
+            self.moves += 1
+            if orig.color != dest.color:
+                self.board[to_row][to_col] = orig
+                self.board[from_row][from_col] = None
+                _return = True
+            else:  # same color, invalid move
+                _return = False
+
+        return _return
 
     def init(self):
         self._init_board()
