@@ -35,7 +35,13 @@ class Piece(object):
 
     def validate_vector(self, vector: List[int]):
         """validate vector with allowed moves of a certain piece"""
-        raise NotImplementedError('base class')
+        if not self.moves:
+            raise NotImplementedError('base class')
+        else:
+            for move in self.moves['directions']:
+                if move == vector:
+                    return True
+            return False
 
     def __str__(self):
         if self.color == 1:
@@ -60,9 +66,6 @@ class Knight(Piece):
             "steps": 1,
             "jump": True
         }
-
-    def validate_vector(self, vector: List[int]):
-        return True
 
 
 class King(Piece):
@@ -112,9 +115,6 @@ class Rock(Piece):
             "steps": None,
             "jump": False
         }
-
-    def validate_vector(self, vector: List[int]):
-        pass
 
 
 class Bishop(Piece):
