@@ -4,7 +4,11 @@ from typing import List, Set
 
 
 class CBNothingToMoveE(BaseException):
+    def __init__(self, msg):
+        self.msg = msg
 
+
+class CBSameColorE(BaseException):
     def __init__(self, msg):
         self.msg = msg
 
@@ -71,9 +75,7 @@ class ChessBoard(object):
         vector = ChessBoard._get_vector([from_row, from_col], [to_row, to_col])
 
         orig = self.board[from_row][from_col]
-        # print(repr(orig))
         dest = self.board[to_row][to_col]
-        # print(repr(orig))
         _return = False
 
         if not orig:
@@ -93,7 +95,7 @@ class ChessBoard(object):
                 self.board[from_row][from_col] = None
                 _return = True
             else:  # same color, invalid move
-                _return = False
+                raise CBSameColorE('invalid, piece on target coordinates has same color')
 
         return _return
 
