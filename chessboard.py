@@ -86,7 +86,6 @@ class ChessBoard(object):
             self.board[from_row][from_col] = None
             _return = True
         else:  # remove something
-            input('====>>>> ENTER')
             # check color
             self.moves += 1
             if orig.color != dest.color:
