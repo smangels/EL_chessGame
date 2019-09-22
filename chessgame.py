@@ -6,7 +6,7 @@ if sys.version_info[0] < 3:
     raise Exception("Must be using Python 3")
 
 from chessboard import ChessBoard
-from chessboard import CBNothingToMoveE, CBSameColorE
+from chessboard import CBNothingToMoveE, CBSameColorE, CBInvalidMove, CBInvalidColor
 
 commands = {"m": "move", "q": "quit"}
 
@@ -41,7 +41,7 @@ def main():
                 _to = input('to: ').strip()
                 try:
                     b.move(_from, _to)
-                except (CBNothingToMoveE, CBSameColorE) as e:
+                except (CBNothingToMoveE, CBSameColorE, CBInvalidMove, CBInvalidColor) as e:
                     input('%s, press ENTER' % e.msg)
                 except NameError as e:
                     print('Error: invalid coordinates, %s, press ENTER' % e)

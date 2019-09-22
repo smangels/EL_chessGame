@@ -38,10 +38,10 @@ class Piece(object):
         if not self.moves:
             raise NotImplementedError('base class')
         else:
-            for move in self.moves['directions']:
-                if move == vector:
-                    return True
-            return False
+            return True
+
+    def get_long_name(self):
+        return self.PIECE_TYPE_MAP[self.name]
 
     @staticmethod
     def _abs_vector(vector: List[int]) -> List[int]:
@@ -176,9 +176,6 @@ class Bishop(Piece):
             "jump": False
         }
 
-    def validate_vector(self, vector: List[int]):
-        pass
-
 
 class Pawn(Piece):
     """Implement specialization for a pawn"""
@@ -195,5 +192,9 @@ class Pawn(Piece):
             "jump": False
         }
 
-    def validate_vector(self, vector: List[int]):
+
+class NoPiece(object):
+    """Implement non-piece"""
+
+    def __init__(self):
         pass
