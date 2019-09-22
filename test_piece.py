@@ -9,7 +9,7 @@ class PieceColor(unittest.TestCase):
         self.p = Piece('w')
         self.assertEqual(self.p.color, Color.WHITE)
 
-    def test_PieceColorWhite(self):
+    def test_PieceColorBlack(self):
         self.p = Piece('b')
         self.assertEqual(self.p.color, Color.BLACK)
 

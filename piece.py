@@ -48,7 +48,7 @@ class Piece(object):
         return [abs(i) for i in vector]
 
     @staticmethod
-    def _abs_vector_equal(vector: List[int]) -> List[int]:
+    def _abs_vector_equal(vector: List[int]) -> bool:
         _absvector = Piece._abs_vector(vector)
         if all(i == _absvector[0] for i in _absvector):
             return True
@@ -76,8 +76,6 @@ class Piece(object):
         # handle queen and rock straight moves
         if 0 in vector:
             return [int(i/absmax) for i in vector]
-
-
 
     def __str__(self):
         if self.color == 1:

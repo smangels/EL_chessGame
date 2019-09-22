@@ -1,6 +1,6 @@
-from piece import *
 import re
 from typing import List, Set
+from piece import *
 
 
 class CBNothingToMoveE(BaseException):
