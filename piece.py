@@ -43,6 +43,42 @@ class Piece(object):
                     return True
             return False
 
+    @staticmethod
+    def _abs_vector(vector: List[int]) -> List[int]:
+        return [abs(i) for i in vector]
+
+    @staticmethod
+    def _abs_vector_equal(vector: List[int]) -> List[int]:
+        _absvector = Piece._abs_vector(vector)
+        if all(i == _absvector[0] for i in _absvector):
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def _unify_vector(vector: List[int]) -> List[int]:
+        """unify a provided vector"""
+
+        absvector = Piece._abs_vector(vector)
+        absmax = max(absvector)
+
+        if absmax <= 1:
+            return vector
+
+        # if all abs values are equal
+        if Piece._abs_vector_equal(vector):
+            return [int(i/absmax) for i in vector]
+
+        # handle special case for Knight
+        if 1 in absvector and 2 in absvector:
+            return vector
+
+        # handle queen and rock straight moves
+        if 0 in vector:
+            return [int(i/absmax) for i in vector]
+
+
+
     def __str__(self):
         if self.color == 1:
             _color = 'w'
@@ -67,6 +103,14 @@ class Knight(Piece):
             "jump": True
         }
 
+    def validate_vector(self, vector: List[int]):
+        _unified_vector = Piece._unify_vector(vector)
+        for move in self.moves['directions']:
+            if move == _unified_vector:
+                return True
+
+        return False
+
 
 class King(Piece):
     """Implement specialization for a king"""
@@ -81,9 +125,6 @@ class King(Piece):
             "steps": None,
             "jump": False
         }
-
-    def validate_vector(self, vector: List[int]):
-        pass
 
 
 class Queen(Piece):
@@ -100,9 +141,6 @@ class Queen(Piece):
             "jump": False
         }
 
-    def validate_vector(self, vector: List[int]):
-        return True
-
 
 class Rock(Piece):
     """Implement specialization for a rock"""
@@ -115,6 +153,17 @@ class Rock(Piece):
             "steps": None,
             "jump": False
         }
+
+    def validate_vector(self, vector: List[int]):
+        _unified_vector = Piece._unify_vector(vector)
+        """validate vector with allowed moves for a rock"""
+        if not self.moves:
+            raise NotImplementedError('base class')
+        else:
+            for move in self.moves['directions']:
+                if move == _unified_vector:
+                    return True
+            return False
 
 
 class Bishop(Piece):
