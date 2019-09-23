@@ -73,6 +73,23 @@ class ChessBoard(object):
         vect_y = dest[1] - orig[1]
         return [vect_x, vect_y]
 
+    def _check_path(self, start: List[int], direction: List[int], dest: List[int]) -> bool:
+        """iterate over all tiles along the path and check for obstacles"""
+        _return = True
+        _next_tile = [start[0] + direction[0], start[1] + direction[1]]
+        if _next_tile == dest:
+            return True
+        while _next_tile != dest:
+            _piece = self.board[_next_tile[0]][_next_tile[1]]
+            if isinstance(_piece, Piece):
+                # we've found an obstacle, abort
+                _return = False
+                break
+
+            _next_tile = [_next_tile[0] + direction[0], _next_tile[1] + direction[1]]
+
+        return _return
+
     def _register_valid_move(self):
         self.moves += 1
         if self.colornext == Color.WHITE:
@@ -107,6 +124,12 @@ class ChessBoard(object):
 
             if not orig.validate_vector(vector):
                 raise CBInvalidMove('invalid move for %s' % orig.get_long_name())
+
+            if not orig.can_jump():
+                # we have to ensure that there is nothing in our path
+                direction = Piece.unify_vector(vector)
+                if not self._check_path([from_row, from_col], direction, [to_row, to_col]):
+                    raise CBInvalidMove('invalid move, obstacle for %s' % orig.__class__.__name__)
 
             if not dest:
                 # move the piece directly to the new position

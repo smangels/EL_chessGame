@@ -1,6 +1,6 @@
 import unittest
 
-from piece import Piece, Color, Rock, Knight
+from piece import Piece, Color, Rock, Knight, Pawn
 
 
 class PieceColor(unittest.TestCase):
@@ -32,21 +32,21 @@ class PieceUnifyVector(unittest.TestCase):
     def test_unify_vector_straight(self):
 
         # single one step vectors, do not handle them
-        self.assertEqual([0, 0], Piece._unify_vector([0, 0]))
-        self.assertEqual([1, 1], Piece._unify_vector([1, 1]))
-        self.assertEqual([1, -1], Piece._unify_vector([1, -1]))
+        self.assertEqual([0, 0], Piece.unify_vector([0, 0]))
+        self.assertEqual([1, 1], Piece.unify_vector([1, 1]))
+        self.assertEqual([1, -1], Piece.unify_vector([1, -1]))
 
         # allowed vector for a queen or bishop
-        self.assertEqual([-1, 1], Piece._unify_vector([-2, 2]))
-        self.assertEqual([1, 1], Piece._unify_vector([4, 4]))
+        self.assertEqual([-1, 1], Piece.unify_vector([-2, 2]))
+        self.assertEqual([1, 1], Piece.unify_vector([4, 4]))
 
         # allowed vector for a knight, kind of a special case
-        self.assertEqual([1, -2], Piece._unify_vector([1, -2]))
-        self.assertEqual([1, 2], Piece._unify_vector([1, 2]))
+        self.assertEqual([1, -2], Piece.unify_vector([1, -2]))
+        self.assertEqual([1, 2], Piece.unify_vector([1, 2]))
 
         # allowed vector for a rock, queen
-        self.assertEqual([0, -1], Piece._unify_vector([0, -5]))
-        self.assertEqual([1, 0], Piece._unify_vector([5, 0]))
+        self.assertEqual([0, -1], Piece.unify_vector([0, -5]))
+        self.assertEqual([1, 0], Piece.unify_vector([5, 0]))
 
 
 class PieceRock(unittest.TestCase):
@@ -87,6 +87,27 @@ class PieceKnight(unittest.TestCase):
         self.assertTrue(self.k.validate_vector([1, 2]))
         self.assertTrue(self.k.validate_vector([2, 1]))
         self.assertTrue(self.k.validate_vector([1, -2]))
+
+
+class PieceCanJump(unittest.TestCase):
+
+    def test_knight_can_jump(self):
+
+        self.k = Knight('w')
+        self.assertTrue(self.k.can_jump())
+
+
+class PieceCanNotJump(unittest.TestCase):
+
+    def test_rock_can_not_jump(self):
+
+        self.r = Rock('w')
+        self.assertFalse(self.r.can_jump())
+
+    def test_pawn_can_not_jump(self):
+
+        self.p = Pawn('w')
+        self.assertFalse(self.p.can_jump())
 
 
 if __name__ == '__main__':

@@ -40,6 +40,9 @@ class Piece(object):
         else:
             return True
 
+    def can_jump(self):
+        return self.moves['jump']
+
     def get_long_name(self):
         return self.PIECE_TYPE_MAP[self.name]
 
@@ -56,7 +59,7 @@ class Piece(object):
             return False
 
     @staticmethod
-    def _unify_vector(vector: List[int]) -> List[int]:
+    def unify_vector(vector: List[int]) -> List[int]:
         """unify a provided vector"""
 
         absvector = Piece._abs_vector(vector)
@@ -102,7 +105,7 @@ class Knight(Piece):
         }
 
     def validate_vector(self, vector: List[int]):
-        _unified_vector = Piece._unify_vector(vector)
+        _unified_vector = Piece.unify_vector(vector)
         for move in self.moves['directions']:
             if move == _unified_vector:
                 return True
@@ -153,7 +156,7 @@ class Rock(Piece):
         }
 
     def validate_vector(self, vector: List[int]):
-        _unified_vector = Piece._unify_vector(vector)
+        _unified_vector = Piece.unify_vector(vector)
         """validate vector with allowed moves for a rock"""
         if not self.moves:
             raise NotImplementedError('base class')
